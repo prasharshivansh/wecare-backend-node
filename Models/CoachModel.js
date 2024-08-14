@@ -16,7 +16,6 @@ const CoachSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ["M", "F"],
     required: [true, "required"],
   },
   dateOfBirth: {

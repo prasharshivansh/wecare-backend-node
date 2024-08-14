@@ -67,6 +67,55 @@ export function UserValidator(user) {
   return err;
 }
 
+export const CoachValidator = (coach) => {
+  let err = null;
+  switch (true) {
+    case !ValidateName(coach.name):
+      err = {
+        status: 400,
+        message: "Name should have minimum 3 and maximum 50 characters",
+      };
+      break;
+    case !ValidatePassword(coach.password):
+      err = {
+        status: 400,
+        message: "Password should have minimum 5 and maximum 10 characters",
+      };
+      break;
+    case !ValidateAge(coach.dateOfBirth):
+      err = {
+        status: 400,
+        message: "Age should be greater than 20 and less than 100",
+      };
+      break;
+    case !ValidateGender(coach.gender):
+      err = {
+        status: 400,
+        message: "Gender should be either M or F",
+      };
+      break;
+    case !ValidatePhoneNumber(coach.mobileNumber):
+      err = {
+        status: 400,
+        message: "Mobile Number should have 10 digits",
+      };
+      break;
+    case !ValidateSpeciality(coach.speciality):
+      err = {
+        status: 400,
+        message: "Specialty should have 10 to 50 characters",
+      };
+      break;
+    default:
+      break;
+  }
+  return err;
+};
+
+export function ValidateSpeciality(spec) {
+  return spec.length >= 10 && spec.length <= 50;
+}
+
 export function ValidateName(name) {
   const userNameRegex = new RegExp(/^[a-zA-Z\s'-]{3,50}$/);
   return userNameRegex.test(name);
