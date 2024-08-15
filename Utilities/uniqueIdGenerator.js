@@ -1,3 +1,4 @@
+import BookingModel from "../Models/BookingModel.js";
 import CoachModel from "../Models/CoachModel.js";
 import UserModel from "../Models/UserModel.js";
 
@@ -29,6 +30,25 @@ export async function generateUniqueCoachId() {
   };
   const generateUniqueIdRecursive = async () => {
     const id = generatedCoachId();
+    const exists = await checkIdExists(id);
+    if (exists) {
+      return generateUniqueIdRecursive();
+    } else {
+      return id;
+    }
+  };
+  return await generateUniqueIdRecursive();
+}
+
+export async function generateUniqueBookingId() {
+  const generatedBookingId = () =>
+    "BI-" + (Math.floor(Math.random() * 9000) + 1000).toString();
+  const checkIdExists = async (id) => {
+    const booking = await BookingModel.findOne({ bookingId: id });
+    return booking !== null;
+  };
+  const generateUniqueIdRecursive = async () => {
+    const id = generatedBookingId();
     const exists = await checkIdExists(id);
     if (exists) {
       return generateUniqueIdRecursive();

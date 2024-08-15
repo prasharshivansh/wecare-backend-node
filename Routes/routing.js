@@ -1,5 +1,10 @@
 import { Router } from "express";
 import {
+  cancelBooking,
+  createBooking,
+  rescheduleBooking,
+} from "../Controller/bookingController.js";
+import {
   coachLogin,
   newCoach,
   getAllCoaches,
@@ -16,4 +21,7 @@ router.post("/coaches", newCoach);
 router.post("/coaches/login", coachLogin);
 router.get("/coaches/all", getAllCoaches);
 router.get("/coaches/:coachId", getCoach);
+router.post("/booking/:userId/:coachId", createBooking);
+router.put("/booking/:bookingId", rescheduleBooking);
+router.delete("/booking/:bookingId", cancelBooking);
 export default router;

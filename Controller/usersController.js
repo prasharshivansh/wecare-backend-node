@@ -1,6 +1,6 @@
 import UserModel from "../Models/UserModel.js";
 import { generateUniqueUserId } from "../Utilities/uniqueIdGenerator.js";
-import { UserValidator } from "../Utilities/validator.js";
+import { userValidator } from "../Utilities/validator.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -25,7 +25,7 @@ export const getUser = async (req, res) => {
 
 export const newUser = async (req, res) => {
   try {
-    if (!UserValidator(req.body)) {
+    if (!userValidator(req.body)) {
       const userExists = await UserModel.findOne({ email: req.body.email });
       if (userExists) {
         res.status(400).json({
@@ -45,7 +45,7 @@ export const newUser = async (req, res) => {
         });
       }
     } else {
-      const err = UserValidator(req.body);
+      const err = userValidator(req.body);
       res.status(err.status).json({
         status: "ERROR",
         message: err.message,

@@ -1,10 +1,10 @@
 import CoachModel from "../Models/CoachModel.js";
 import { generateUniqueCoachId } from "../Utilities/uniqueIdGenerator.js";
-import { CoachValidator } from "../Utilities/validator.js";
+import { coachValidator } from "../Utilities/validator.js";
 
 export const newCoach = async (req, res) => {
   try {
-    if (!CoachValidator(req.body)) {
+    if (!coachValidator(req.body)) {
       const coachExists = await CoachModel.findOne({ name: req.body.name });
       if (coachExists) {
         res.status(400).json({
@@ -23,7 +23,7 @@ export const newCoach = async (req, res) => {
         });
       }
     } else {
-      const err = CoachValidator(req.body);
+      const err = coachValidator(req.body);
       res.status(err.status).json({
         status: "ERROR",
         message: err.message,

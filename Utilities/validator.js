@@ -1,4 +1,4 @@
-export function UserValidator(user) {
+export function userValidator(user) {
   let err = null;
   switch (true) {
     case !ValidateName(user.name):
@@ -67,7 +67,7 @@ export function UserValidator(user) {
   return err;
 }
 
-export const CoachValidator = (coach) => {
+export const coachValidator = (coach) => {
   let err = null;
   switch (true) {
     case !ValidateName(coach.name):
@@ -112,10 +112,33 @@ export const CoachValidator = (coach) => {
   return err;
 };
 
+export const bookingValidator = (booking) => {
+  const slotRegex = /^([0-9]{1,2}) (AM|PM) to ([0-9]{1,2}) (AM|PM)$/;
+  let err = null;
+  if (!isWithinNext7Days(new Date(booking.dateOfAppointment))) {
+    err = {
+      status: 400,
+      message: "Date should be any upcoming 7 days",
+    };
+  }
+  if (!slotRegex.test(booking.slot)) {
+    err = {
+      status: 400,
+      message: "Slot should be a valid one",
+    };
+  }
+  return err;
+};
+
 export function ValidateSpeciality(spec) {
   return spec.length >= 10 && spec.length <= 50;
 }
-
+function isWithinNext7Days(date) {
+  const currentDate = new Date();
+  const sevenDaysLater = new Date(currentDate);
+  sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
+  return date >= currentDate && date <= sevenDaysLater;
+}
 export function ValidateName(name) {
   const userNameRegex = new RegExp(/^[a-zA-Z\s'-]{3,50}$/);
   return userNameRegex.test(name);
