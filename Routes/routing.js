@@ -2,6 +2,9 @@ import { Router } from "express";
 import {
   cancelBooking,
   createBooking,
+  defaultRoute,
+  getBookingForCoach,
+  getBookingForUser,
   rescheduleBooking,
 } from "../Controller/bookingController.js";
 import {
@@ -24,4 +27,7 @@ router.get("/coaches/:coachId", getCoach);
 router.post("/booking/:userId/:coachId", createBooking);
 router.put("/booking/:bookingId", rescheduleBooking);
 router.delete("/booking/:bookingId", cancelBooking);
+router.get("/coaches/booking/:coachId", getBookingForCoach);
+router.get("/users/booking/:userId", getBookingForUser);
+router.all("*", defaultRoute);
 export default router;

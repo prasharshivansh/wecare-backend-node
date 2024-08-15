@@ -128,3 +128,46 @@ export const cancelBooking = async (req, res) => {
     res.status(500).json({ status: "ERROR", message: e.message });
   }
 };
+
+export const getBookingForCoach = async (req, res) => {
+  try {
+    const bookings = await BookingModel.find(
+      { coachId: req.params.coachId },
+      { _id: 0, __v: 0 }
+    );
+    if (bookings.length > 0) {
+      res.status(200).json(bookings);
+    } else {
+      res
+        .status(400)
+        .json({ status: "SUCCESS", message: "Could not find any bookings" });
+    }
+  } catch (e) {
+    res.status(500).json({ status: "ERROR", message: e.message });
+  }
+};
+
+export const getBookingForUser = async (req, res) => {
+  try {
+    const bookings = await BookingModel.find(
+      { userId: req.params.userId },
+      { _id: 0, __v: 0 }
+    );
+    if (bookings.length > 0) {
+      res.status(200).json(bookings);
+    } else {
+      res.status(400).json({
+        status: "SUCCESS",
+        message: "Could not find any appointment details",
+      });
+    }
+  } catch (e) {
+    res.status(500).json({ status: "ERROR", message: e.message });
+  }
+};
+
+export const defaultRoute = async (req, res) => {
+  res.status(404).json({
+    message: "Invalid path",
+  });
+};
