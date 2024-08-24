@@ -30,7 +30,7 @@ export const newUser = async (req, res) => {
       if (userExists) {
         res.status(400).json({
           status: "ERROR",
-          messsage: "This Email Address already exists",
+          message: "This Email Address already exists",
         });
       } else {
         const userId = await generateUniqueUserId()
